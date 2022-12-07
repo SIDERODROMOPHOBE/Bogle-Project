@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Projet Bogle Algorithme A2": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}

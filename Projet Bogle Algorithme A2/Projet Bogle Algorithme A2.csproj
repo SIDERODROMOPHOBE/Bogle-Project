@@ -6,4 +6,13 @@
     <RootNamespace>Projet_Bogle_Algorithme_A2</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="MotsPossiblesEN.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MotsPossiblesFR.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
