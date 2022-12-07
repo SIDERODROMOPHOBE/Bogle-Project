@@ -23,7 +23,6 @@ namespace Projet_Bogle_Algorithme_A2
 		{
 			this.mondico = mondico;
 			this.monplateau = monplateau;
-
 		}
 	}
 }

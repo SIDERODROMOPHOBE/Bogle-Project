@@ -6,17 +6,10 @@ namespace Projet_Bogle_Algorithme_A2
 {
 	public class Joueur
 	{
-		public string Nom { get; set; }
-		public int Score { get; set; }
-		public List<string> Mots { get; set; }
-
-		/// <summary>
-		///On programme le constructeur de notre classe Joueur.
-		/// C'est à dire un joueur a un nom, un score et une liste de mot.
-		/// </summary>
-		/// <param name="nom"></param>
-		/// <param name="score"></param>
-		/// <param name="mots"></param>
+		private string Nom { get; set; }
+        private int Score { get; set; }
+        private List<string> Mots { get; set; }
+		
 		public Joueur(string nom, int score, List<string> mots)
 		{
 			Nom = nom[0].ToString().ToUpper() + nom[1..].ToLower();
@@ -24,30 +17,16 @@ namespace Projet_Bogle_Algorithme_A2
 			Mots = mots;
 		}
 		
-		/// <summary>
-		/// Regarde si le mot a déjà été cité.
-		/// </summary>
-		/// <param name="mot"></param>
-		/// <returns></returns>
-		public bool Contain(string mot)       
+		public bool Verif_Mot(string mot)       
 		{
 			return Mots.Contains(mot);                
 		}
 	   
-		/// <summary>
-		///  Rajoute le mot a la list.
-		/// </summary>
-		/// <param name="mot"></param>
 		public void Add_Mot(string mot)
 		{
 			Mots.Add(mot);
 		}
 
-	   
-		/// <summary>
-		/// Les informations du joueurs
-		/// </summary>
-		/// <returns></returns>
 		public override string ToString()
 		{
 			string print = $"Le joueur se prénomme { Nom }, son score est de : { Score } et ses mots sont : ";
