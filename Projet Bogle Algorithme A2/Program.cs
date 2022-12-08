@@ -362,7 +362,7 @@ namespace Projet_Bogle_Algorithme_A2
 
 
                     List<string> list = dico.ReadFile("MotsPossibles.txt", motentre.Length);
-                    if (plat1.Test_Plateau(motentre) && dico.RechDichoRecursive(0, list.Count, motentre, list) && (J2.Mots.Contains(motentre) == false) && motentre.Length > 2 && motentre.Length < 16 && motentre != null)
+                    if (plat2.Test_Plateau(motentre) && dico.RechDichoRecursive(0, list.Count, motentre, list) && (J2.Mots.Contains(motentre) == false) && motentre.Length > 2 && motentre.Length < 16 && motentre != null)
                     {
                         J2.Mots.Add(motentre);
                         Console.WriteLine(J2.Nom + " gagne " + Score(motentre) + " points grâce au mot " + motentre);
