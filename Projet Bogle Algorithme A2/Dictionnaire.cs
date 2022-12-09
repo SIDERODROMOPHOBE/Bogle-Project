@@ -9,7 +9,7 @@ namespace Projet_Bogle_Algorithme_A2
 	public class Dictionnaire
 	{
 		private string Langage { get; set; }
-		private List<List<string>> Mots { get; set; };
+		private List<List<string>> Mots { get; set; }
         private string Fichier { get; set; }
 
 		public Dictionnaire(string langage, string file)
@@ -17,9 +17,10 @@ namespace Projet_Bogle_Algorithme_A2
 			Langage = langage;
 			Fichier = file;
 			Mots = new List<List<string>>();
+			ReadFile();
         }
 
-		public void ReadFile()
+		private void ReadFile()
 		{
             int lengh = 0;
             foreach(string mot in File.ReadAllText(Fichier).Split(" "))
@@ -42,9 +43,9 @@ namespace Projet_Bogle_Algorithme_A2
 		public override string ToString()
 		{
 			int totalMots = 0;
-			for(int i = 0; i < Mots.Count; i++)
+			foreach (var mots in Mots)
 			{
-				totalMots += Mots[i].Count;
+				totalMots += mots.Count;
 			}
 
 			string print = $"Le dictionnaire est en {Langage}, il comporte {totalMots} mots dont :";
@@ -59,6 +60,11 @@ namespace Projet_Bogle_Algorithme_A2
 		public bool RechDichoRecursive(string mot)
 		{
 			return Mots[mot.Length].Contains(mot);
-		}        
+		}
+
+		public string Get_Mot(int nb)
+		{
+			
+		}
 	}
 }
