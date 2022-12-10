@@ -6,9 +6,9 @@ namespace Projet_Bogle_Algorithme_A2
 {
 	public class Joueur
 	{
-		private string Nom { get; set; }
-		private int Score { get; set; }
-		private List<string> Mots { get; set; }
+		public string Nom { get; }
+		public int Score { get; private set; }
+		private List<string> Mots { get; }
 		
 		public Joueur(string nom)
 		{
@@ -25,6 +25,15 @@ namespace Projet_Bogle_Algorithme_A2
 		public void Add_Mot(string mot)
 		{
 			Mots.Add(mot);
+		}
+		public string Get_Mots()
+		{
+			string print = "";
+			foreach (string mot in Mots)
+			{
+				print += $"{ mot }, ";
+			}
+			return print;
 		}
 
 		public void Add_Score(int score)

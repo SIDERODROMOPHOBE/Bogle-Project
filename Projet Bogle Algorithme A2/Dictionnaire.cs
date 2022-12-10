@@ -8,9 +8,9 @@ namespace Projet_Bogle_Algorithme_A2
 {
 	public class Dictionnaire
 	{
-		private string Langage { get; set; }
-		private List<List<string>> Mots { get; set; }
-        private string Fichier { get; set; }
+		private string Langage { get; }
+		private List<List<string>> Mots { get; }
+        private string Fichier { get; }
 
 		public Dictionnaire(string langage, string file)
 		{
@@ -23,7 +23,7 @@ namespace Projet_Bogle_Algorithme_A2
 		private void ReadFile()
 		{
             int lengh = 0;
-            foreach(string mot in File.ReadAllText(Fichier).Split(" "))
+            foreach(string mot in new StreamReader(Fichier).ToString()!.Split(" "))
             {
                 if(mot.Length > lengh)
                 {
@@ -60,11 +60,6 @@ namespace Projet_Bogle_Algorithme_A2
 		public bool RechDichoRecursive(string mot)
 		{
 			return Mots[mot.Length].Contains(mot);
-		}
-
-		public string Get_Mot(int nb)
-		{
-			
 		}
 	}
 }
