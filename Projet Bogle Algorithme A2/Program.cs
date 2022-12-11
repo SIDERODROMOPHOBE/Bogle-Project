@@ -1,25 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace Projet_Bogle_Algorithme_A2
 {
 	public static class Program
 	{
+		private static Jeu jeu;
 		private static void Main()
 		{
-			Console.WriteLine($"Bonjour, bienvenue sur le jeu");
-			Console.WriteLine($"Voulez vous jouer ? (Yes/No)");
-			string answer = Console.ReadLine();
-			if (Array.Exists(new string[] {"Yes", "yes", "YES", "y"}, element => element == answer))
+			do
 			{
-				Jeu game = new Jeu();
-			}
-			else
-			{
-				Console.WriteLine($"Au revoir");
-			}
+				Console.WriteLine($"Bonjour, bienvenue sur le jeu");
+				Console.WriteLine($"Voulez vous jouer ? (Yes/No)");
+				string answer = Console.ReadLine();
+				if (Array.Exists(new[] {"Yes", "yes", "YES", "y"}, element => element == answer))
+				{
+					jeu = new Jeu();
+				}
+				else
+				{
+					jeu = null;
+					Console.WriteLine($"Au revoir");
+				}
+			} while (jeu != null);
 		}
 	}
 }

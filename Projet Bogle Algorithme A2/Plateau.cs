@@ -1,28 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Projet_Bogle_Algorithme_A2
 {
 	public class Plateau
 	{
 		private char[,] Matrice { get; }
-		private int Level { get; }
-		private List<string> MotsInMatrice { get; }
+		public List<string> MotsInMatrice { get; }
 		private Dictionnaire Dico { get; }
 		
-		public Plateau(char[,] matrice, int level, string lang)
+		public Plateau(char[,] matrice, string lang)
 		{
 			Matrice = matrice;
-			Level = level;
 			MotsInMatrice = new List<string>();
-			if(lang == "FR")
+			
+			switch (lang)
 			{
-				Dico = new Dictionnaire( lang, "MotsPossiblesFR.txt");
-			}
-			else if(lang == "EN")
-			{
-				Dico = new Dictionnaire(lang, "MotsPossiblesEN.txt");
+				case "FR":
+				{
+					Dico = new Dictionnaire( lang, "MotsPotyssiblesFR.txt");
+					break;
+				}
+				case "EN":
+				{
+					Dico = new Dictionnaire(lang, "MotsPossiblesEN.txt");
+					break;
+				}
 			}
 		}
 		
@@ -34,26 +36,26 @@ namespace Projet_Bogle_Algorithme_A2
 			{
 				for (int j = 0; j < Matrice.GetLength(1); j++)
 				{
-					print += $"{Matrice[i, j]} ";
+					print += $"{ Matrice[i, j] } ";
 				}
 				print += "\n";
 			}
 			return print;
 		}
 		
-		public bool Get_List_Mots(int level = 0)
+		public bool Get_List_Mots(int level, int nbManche = 0)
 		{
-			switch(Level)
+			switch(level)
 			{
 				case 1:
 				{
 					for(int i = 0; i < Matrice.GetLength(0); i++)
 					{
+						string mot = "";
 						for(int j = 0; j < Matrice.GetLength(1); j++)
 						{
-							string mot = "";
 							mot += Matrice[i, j];
-							if (Dico.RechDichoRecursive(mot))
+							if(Dico.RechDichoRecursive(mot) && !MotsInMatrice.Contains(mot))
 							{
 								MotsInMatrice.Add(mot);
 							}
@@ -61,11 +63,11 @@ namespace Projet_Bogle_Algorithme_A2
 					}
 					for(int i = 0; i < Matrice.GetLength(0); i++)
 					{
+						string mot = "";
 						for(int j = 0; j < Matrice.GetLength(1); j++)
 						{
-							string mot = "";
 							mot += Matrice[j, i];
-							if (Dico.RechDichoRecursive(mot))
+							if(Dico.RechDichoRecursive(mot) && !MotsInMatrice.Contains(mot))
 							{
 								MotsInMatrice.Add(mot);
 							}
@@ -76,25 +78,25 @@ namespace Projet_Bogle_Algorithme_A2
 				case 2:
 				{
 					Get_List_Mots(1);
-					for(int i = Matrice.GetLength(0); i >= 0; i--)
+					for(int i = Matrice.GetLength(0) - 1; i >= 0; i--)
 					{
-						for(int j = Matrice.GetLength(1); j >= 0; j--)
+						string mot = "";
+						for(int j = Matrice.GetLength(1) - 1; j >= 0; j--)
 						{
-							string mot = "";
 							mot += Matrice[i, j];
-							if (Dico.RechDichoRecursive(mot))
+							if(Dico.RechDichoRecursive(mot) && !MotsInMatrice.Contains(mot))
 							{
 								MotsInMatrice.Add(mot);
 							}
 						}
 					}
-					for(int i = Matrice.GetLength(0); i >= 0; i--)
+					for(int i = Matrice.GetLength(0) - 1; i >= 0; i--)
 					{
-						for(int j = Matrice.GetLength(1); j >= 0; j--)
+						string mot = "";
+						for(int j = Matrice.GetLength(1) - 1; j >= 0; j--)
 						{
-							string mot = "";
 							mot += Matrice[j, i];
-							if (Dico.RechDichoRecursive(mot))
+							if(Dico.RechDichoRecursive(mot) && !MotsInMatrice.Contains(mot))
 							{
 								MotsInMatrice.Add(mot);
 							}
@@ -103,7 +105,7 @@ namespace Projet_Bogle_Algorithme_A2
 					break;
 				}
 			}
-			return MotsInMatrice.Count > 0;
+			return MotsInMatrice.Count > nbManche;
 		}
 
 		public bool Test_Plateau(string mot)

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Projet_Bogle_Algorithme_A2
 {

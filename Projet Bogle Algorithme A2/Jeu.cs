@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-
 
 namespace Projet_Bogle_Algorithme_A2
 {
-	class Jeu
+	internal class Jeu
 	{
-		private Dictionnaire Dico { get; set; }
-		private Plateau Plat { get; set; }
+		private Plateau Plat { get; }
 		private readonly Random _rand = new Random();
 		private readonly Joueur[] _players = new Joueur[2];
 
-	public Jeu()
+		public Jeu()
 		{
 			Console.Clear();
 			Console.WriteLine($"Veuillez indiqué le nom du Joueur 1");
@@ -27,7 +22,7 @@ namespace Projet_Bogle_Algorithme_A2
 						_players[0] = new Joueur(temp);
 					}
 				}
-				catch (Exception e)
+				catch(Exception)
 				{
 					Console.WriteLine("Nom du joueur non reconnue, veuillez réessayer.");
 				}
@@ -46,7 +41,7 @@ namespace Projet_Bogle_Algorithme_A2
 						_players[1] = new Joueur(temp);
 					}
 				}
-				catch (Exception e)
+				catch(Exception)
 				{
 					Console.WriteLine("Nom du joueur non reconnue, veuillez réessayer.");
 				}
@@ -66,7 +61,7 @@ namespace Projet_Bogle_Algorithme_A2
 						nbManche = int.Parse(temp);
 					}
 				}
-				catch (Exception e)
+				catch(Exception)
 				{
 					Console.WriteLine("Nombre de manche non reconnue, veuillez réessayer.");
 				}
@@ -78,14 +73,17 @@ namespace Projet_Bogle_Algorithme_A2
 			int level = 0;
 			do
 			{
-				int temp = Convert.ToInt32(Console.ReadLine());
-				if(Array.Exists(new int[] {1, 2, 3}, element => element == temp))
+				string temp = Console.ReadLine();
+				try
 				{
-					level = temp;
+					if (temp != null && Array.Exists(new[] {"1", "2", "3"}, element => element == temp))
+					{
+						level = int.Parse(temp);
+					}
 				}
-				else
+				catch (Exception)
 				{
-					Console.WriteLine("Difficulté non reconnue, veuillez réessayer.");
+					Console.WriteLine("Veuillez écrire un chiffre entre 1 et 3 !");
 				}
 			} while (level == 0);
 			
@@ -95,9 +93,9 @@ namespace Projet_Bogle_Algorithme_A2
 			do
 			{
 				string temp = Console.ReadLine();
-				if(Array.Exists(new string[] {"FR", "fr", "f", "EN", "en", "e"}, element => element == temp))
+				if(Array.Exists(new[] {"FR", "fr", "f", "EN", "en", "e"}, element => element == temp))
 				{
-					if(Array.Exists(new string[] {"FR", "fr", "f"}, element => element == temp))
+					if(Array.Exists(new[] {"FR", "fr", "f"}, element => element == temp))
 					{
 						lang = "FR";
 					}
@@ -113,21 +111,22 @@ namespace Projet_Bogle_Algorithme_A2
 			} while (lang == null);
 			
 			for(int i = 0; i < nbManche; i++)
-			{ 
+			{
 				foreach(Joueur joueur in _players)
 				{
+					Console.ResetColor();
+					Console.Clear();
+					Console.WriteLine($"À { joueur.Nom } de joué !");
 					do
 					{
-						Console.WriteLine("Error");
-						Plat = new Plateau(InitMatrice(nbManche + 2), level, lang);
-						Console.WriteLine(Plat.ToString());
+						Plat = new Plateau(InitMatrice(i + 2), lang);
 					}
-					while (Plat.Get_List_Mots() == false);
-					Console.WriteLine("OK");
+					while (Plat.Get_List_Mots(level, i + 1) == false);
 					Play(joueur);
 				}
 			}
 			Console.Clear();
+			Console.ForegroundColor = ConsoleColor.Green;
 			if(_players[0].Score > _players[1].Score)
 			{
 				Console.WriteLine($"{ _players[0].Nom } a gagné avec { _players[0].Score } points");
@@ -138,32 +137,42 @@ namespace Projet_Bogle_Algorithme_A2
 			}
 			else
 			{
+				Console.ForegroundColor = ConsoleColor.Yellow;
 				Console.WriteLine($"Égalité entre les joueurs avec { _players[0].Score } points");
 			}
+			Console.WriteLine("\n");
+			Console.ResetColor();
 		}
 	
-		private void Play(Joueur joueur)
+		private void Play(Joueur player)
 		{
 			DateTime start = DateTime.Now;
-			Console.Clear();
-			Console.WriteLine(Plat.ToString());
-			Console.WriteLine($"Veuillez indiqué un mot :");
 			do
 			{
+				Console.ResetColor();
+				Console.WriteLine($"\n{ (TimeSpan.FromSeconds(60) - (DateTime.Now - start)).ToString("ss") } secondes restant...\n");
+				Console.WriteLine(Plat.ToString());
+				Console.Write($"\nVeuillez indiqué un mot : ");
+				string mot = Console.ReadLine()?.ToUpper();
 				Console.Clear();
-				Console.WriteLine($"{ TimeSpan.FromSeconds(60) - (DateTime.Now - start) } secondes");
-				string mot = Console.ReadLine();
-				if(Plat.Test_Plateau(mot) && mot != null)
+				if(Plat.Test_Plateau(mot) && mot != null && !player.Verif_Mot(mot))
 				{
+					Console.ForegroundColor = ConsoleColor.Green;
 					Console.WriteLine($"Mot valide");
-					joueur.Add_Mot(mot);
-					joueur.Add_Score(mot.Length);
+					player.Add_Mot(mot);
+					player.Add_Score(mot.Length);
+				}
+				else if(player.Verif_Mot(mot))
+				{
+					Console.ForegroundColor = ConsoleColor.Yellow;
+					Console.WriteLine($"Mot déjà trouver");
 				}
 				else
 				{
+					Console.ForegroundColor = ConsoleColor.Red;
 					Console.WriteLine($"Mot invalide");
 				}
-			} while (DateTime.Now - start < TimeSpan.FromSeconds(60));
+			} while(((DateTime.Now - start) < TimeSpan.FromSeconds(60) && player.Mots.Count != Plat.MotsInMatrice.Count));
 		}
 		
 		private char[,] InitMatrice(int nbManches)

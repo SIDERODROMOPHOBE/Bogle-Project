@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Projet_Bogle_Algorithme_A2
 {
@@ -8,7 +6,7 @@ namespace Projet_Bogle_Algorithme_A2
 	{
 		public string Nom { get; }
 		public int Score { get; private set; }
-		private List<string> Mots { get; }
+		public List<string> Mots { get; }
 		
 		public Joueur(string nom)
 		{
